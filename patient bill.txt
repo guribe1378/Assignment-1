@@ -20,10 +20,10 @@ create user usuarioDBA identified by sistemas123 default tablespace hospital_bil
 5.
 grant DBA TO usuarioDBA;
 6.
-create profile manager_profile limit sessions_per_user 1
+create profile manager limit sessions_per_user 1
 password_life_time 40 idle_time 15 failed_login_attempts 4 ;
 
-create profile finance_profile limit sessions_per_user 1
+create profile finance limit sessions_per_user 1
 password_life_time 15 idle_time 3 failed_login_attempts 2 ;
 
 create profile development limit sessions_per_user 2
@@ -31,7 +31,7 @@ password_life_time 100 idle_time 30 ;
 
 7.
 create user usuario1 identified by sistemas123 default tablespace hospital_bills 
-profile manager_profile ;
+profile manager ;
 
 create user usuario2 identified by sistemas123 default tablespace hospital_bills 
 profile finance; 
