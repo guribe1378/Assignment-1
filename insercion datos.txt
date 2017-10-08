@@ -1,0 +1,136 @@
+CREATE SEQUENCE seq_city MINVALUE 10000 START WITH 10000 INCREMENT BY 1;
+CREATE SEQUENCE seq_cost_center MINVALUE 20000 START WITH 20000 INCREMENT BY 1;
+CREATE SEQUENCE seq_patienservice MINVALUE 30000 START WITH 30000 INCREMENT BY 1;
+CREATE SEQUENCE seq_patien MINVALUE 40000 START WITH 40000 INCREMENT BY 1;
+CREATE SEQUENCE seq_servicedet MINVALUE 50000 START WITH 50000 INCREMENT BY 1;
+CREATE SEQUENCE seq_bill MINVALUE 60000 START WITH 60000 INCREMENT BY 1;
+
+
+CREATE TABLE cities (
+  id number,
+  city varchar2(255),
+  state varchar2(255),
+  zip varchar2(255),
+  CONSTRAINT id_pk_cities PRIMARY KEY (id));
+
+CREATE TABLE cost_center (
+  id number,
+  center varchar2(255),
+  center_name varchar2(255),
+  CONSTRAINT id_pk_cost_center PRIMARY KEY (id) ); 
+
+CREATE TABLE services (
+  id number,
+  name_service varchar2(255),
+  charge_service varchar2(255),
+  cost_center_id number,
+  CONSTRAINT id_pk_services PRIMARY KEY (id),
+CONSTRAINT fk_cost_center_id FOREIGN KEY (cost_center_id) REFERENCES cost_center(id));
+
+CREATE TABLE patients (
+  id number,
+  first_name varchar2(255) ,
+  last_name varchar2(255),
+  adress varchar2(255),
+  city_id number,
+  CONSTRAINT id_pk_patients PRIMARY KEY (id),
+CONSTRAINT fk_city_id FOREIGN KEY (city_id) REFERENCES cities(id));
+
+CREATE TABLE bills (
+  id number,
+  date_bill date,
+  date_addmited date,
+  date_discharge date,
+  bal_due varchar2(255),
+  patient_id number,
+ CONSTRAINT id_pk_bill PRIMARY KEY (id),
+CONSTRAINT fk_patient FOREIGN KEY (patient_id) REFERENCES patients(id) );
+
+CREATE TABLE services_details (
+  id number,
+  date_charged date,
+  service_id number,
+  bill_id number,
+CONSTRAINT id_pk_servicesdet PRIMARY KEY (id),
+CONSTRAINT fk_service_id FOREIGN KEY (service_id) REFERENCES services(id),
+CONSTRAINT fk_bill FOREIGN KEY (bill_id) REFERENCES bills(id));
+
+
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Augusta','Georgia','B3I 1O8');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Tranås','Jönköpings län','T2O 2C7');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'San Vicente','SJ','T4T 0P8');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Iskenderun','Hatay','Z5Z 2Q9');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Istanbul','Ist','C9J 7D3');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Wommelgem','AN','U2T 8K7');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Toowoomba','QLD','Q3B 2C9');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Nice','PR','K6Z 2Q9');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Pittsburgh','Pennsylvania','R3B 0I0');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Pitlochry','Perthshire','T6H 3V2');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Avellino','CAM','U0W 0Q0');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Wilmington','Delaware','O3M 9T2');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Torrejón de Ardoz','Madrid','L9W 6L4');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Elblag','Warminsko-mazurskie','C3V 5R6');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Canning','WA','X4K 5J6');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Santa Coloma de Gramenet','Catalunya','U0T 8Q5');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Pincher Creek','AB','T2T 0J1');
+INSERT INTO cities (id,city,state,zip) VALUES (seq_city.nextval,'Hearst','ON','C3H 6A8');
+
+  
+iNSERT INTO cost_center (id,center,center_name) VALUES (seq_cost_center.nextval,'100','hospitalizacion');
+INSERT INTO cost_center (id,center,center_name) VALUES (seq_cost_center.nextval,'105','monitoreo');
+INSERT INTO cost_center (id,center,center_name) VALUES (seq_cost_center.nextval,'110','direccion');
+INSERT INTO cost_center (id,center,center_name) VALUES (seq_cost_center.nextval,'115','radiologia');
+INSERT INTO cost_center (id,center,center_name) VALUES (seq_cost_center.nextval,'120','uci');
+INSERT INTO cost_center (id,center,center_name) VALUES (seq_cost_center.nextval,'125','uce');
+INSERT INTO cost_center (id,center,center_name) VALUES (seq_cost_center.nextval,'130','ambulatoria');
+INSERT INTO cost_center (id,center,center_name) VALUES (seq_cost_center.nextval,'135','monitoreo');
+INSERT INTO cost_center (id,center,center_name) VALUES (seq_cost_center.nextval,'140','rayos x');
+INSERT INTO cost_center (id,center,center_name) VALUES (seq_cost_center.nextval,'145','muestras');
+INSERT INTO cost_center (id,center,center_name) VALUES (seq_cost_center.nextval,'150','enfermeria');
+
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'tramal','33,171','20000');
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'agujas','2,374','20010');
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'agua','4,444','20000');
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'camilla','88,581','20000');
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'acetaminofen','2,742','20010');
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'alcohol','1,062','20010');
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'oxigeno','47,930','20004');
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'espatula','9,901','20004');
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'suero','1,735','20004');
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'alcohol','2,244','20010');
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'tapabocas','4,579','20008');
+INSERT INTO services (id,name_service,charge_service,cost_center_id) VALUES (seq_patienservice.nextval,'microscopio','76,096','20008');
+
+INSERT INTO patients (id,first_name,last_name,adress,city_id) VALUES (seq_patien.nextval,'Kenneth','Candice','850-9921 Auctor Carretera','10000');
+INSERT INTO patients (id,first_name,last_name,adress,city_id) VALUES (seq_patien.nextval,'Kuame','Shellie','4235 Cras Avenida','10005');
+INSERT INTO patients (id,first_name,last_name,adress,city_id) VALUES (seq_patien.nextval,'Tamara','Todd','Apartado núm.: 977, 3211 Egestas. C.','10006');
+INSERT INTO patients (id,first_name,last_name,adress,city_id) VALUES (seq_patien.nextval,'Harlan','Elliott','Apdo.:198-6725 Tincidunt. Avenida','10008');
+INSERT INTO patients (id,first_name,last_name,adress,city_id) VALUES (seq_patien.nextval,'Rafael','Lewis','397-6490 Purus. ','10007');
+INSERT INTO patients (id,first_name,last_name,adress,city_id) VALUES (seq_patien.nextval,'Eleanor','MacKenzie','Apdo.:977-2525 Non, Carretera','10009');
+INSERT INTO patients (id,first_name,last_name,adress,city_id) VALUES (seq_patien.nextval,'Seth','Hunter','Apartado núm.: 926, 5828 Ac, Av.','10004');
+INSERT INTO patients (id,first_name,last_name,adress,city_id) VALUES (seq_patien.nextval,'Kermit','Malcolm','Apartado núm.: 904, 130 Blandit Ctra.','10003');
+INSERT INTO patients (id,first_name,last_name,adress,city_id) VALUES (seq_patien.nextval,'Brett','Hop','707-205 Nec, ','10011');
+INSERT INTO patients (id,first_name,last_name,adress,city_id) VALUES (seq_patien.nextval,'Judith','Justine','638-1393 Tincidunt, Avenida','10012');
+
+INSERT INTO bills (id,date_bill,date_addmited,date_discharge,bal_due,patient_id) VALUES (seq_bill.nextval,'16/01/2017','16/01/2017','16/01/2017','37,919','40000');
+INSERT INTO bills (id,date_bill,date_addmited,date_discharge,bal_due,patient_id) VALUES (seq_bill.nextval,'12/03/2017','12/03/2017','12/03/2017','11,262','40001');
+INSERT INTO bills (id,date_bill,date_addmited,date_discharge,bal_due,patient_id) VALUES (seq_bill.nextval,'12/03/2017','12/03/2017','12/03/2017','265,743','40000');
+INSERT INTO bills (id,date_bill,date_addmited,date_discharge,bal_due,patient_id) VALUES (seq_bill.nextval,'12/03/2017','12/03/2017','12/03/2017','4,444','40002');
+INSERT INTO bills (id,date_bill,date_addmited,date_discharge,bal_due,patient_id) VALUES (seq_bill.nextval,'12/03/2017','12/03/2017','12/03/2017','88,581','40003');
+INSERT INTO bills (id,date_bill,date_addmited,date_discharge,bal_due,patient_id) VALUES (seq_bill.nextval,'12/03/2017','12/03/2017','12/03/2017','88,581','40000');
+INSERT INTO bills (id,date_bill,date_addmited,date_discharge,bal_due,patient_id) VALUES (seq_bill.nextval,'16/01/2017','16/01/2017','16/01/2017','2,742','40003');
+
+
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'16/01/2017','30000','60000');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'16/01/2017','30001','60000');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'16/01/2017','30001','60000');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'12/03/2017','30001','60001');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'16/01/2017','30002','60001');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'16/01/2017','30002','60001');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'20/09/2017','30003','60002');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'20/09/2017','30003','60002');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'20/09/2017','30003','60002');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'20/09/2017','30003','60004');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'20/09/2017','30003','60005');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'20/09/2017','30004','60006');
+INSERT INTO services_details (id,date_charged,service_id,bill_id) VALUES (seq_servicedet.nextval,'20/09/2017','30002','60006');
